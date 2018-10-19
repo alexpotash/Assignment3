@@ -1,0 +1,56 @@
+## Question 1
+
+import os # For setting working directory
+import string # For splitting lines
+
+# The following line of code only works on my computer because it sets the working directory
+os.chdir("/Users/alexpotash/GradSchool/Classes/PhD/Fall2018/Programming/Class_Files-master/data/") 
+
+fhand=open('CO-OPS__8729108__wl.csv') # Read csv file
+data = fhand.read().splitlines(True) # Breakdown the data by line
+data2=(data[1:]) # Remove the column headings
+
+t=list() # Create an empty list to receive the date & time and the water level
+
+for line in data2:
+    line = line.rstrip() 
+    x=(line[0:16]) # Characters that correspond with date and time
+    y=(line[17:22]) # Characters that correspond with the water level
+    z=[y,x] 
+    t.append(z) # Add the date & time and water level to a list
+    
+max(t) # Find the max water level
+
+
+
+## Question 2
+
+import pandas as pd
+
+df = pd.read_csv('CO-OPS__8729108__wl.csv') # Read the csv file using pandas
+maxindex=df[' Water Level'].idxmax() # Find the index (row #) of the max value in the 'Water Level' column
+df.iloc[[maxindex]] # Report the line of the dataframe that contains the max water level
+
+
+## Question 3
+
+df = pd.read_csv('CO-OPS__8729108__wl.csv')
+water=df[' Water Level']
+
+waterdiff=water.diff(periods=1) # Use the .diff command to calculate the difference between successive rows (periods=1)
+print(max(waterdiff.dropna())) # Report the maximum value of difference between successive water values and drop the NA value
+
+
+## Question 4
+
+# Need to include the following line to make plot appear in Jupyter Notebook
+%matplotlib inline 
+
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('CO-OPS__8729108__wl.csv')
+
+plt.plot(df["Date Time"],df[" Water Level"]) # Plot the date and time on the X axis and plot the water level on the Y axis
+plt.xlabel('Date') 
+plt.ylabel('Water Level')
+plt.show() # This takes about 30 seconds for the plot to appear. Be patient.
